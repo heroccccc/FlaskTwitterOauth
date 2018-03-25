@@ -1,0 +1,47 @@
+@charset "utf-8";
+
+body {
+  text-align: center;
+}
+
+
+h1 {
+  color: black;
+  text-align: center;
+  font-size: 5em;
+  font-weight: bold;
+}
+
+.login {
+  color: black;
+  font-weight: bold;
+  font-size: 2em;
+  text-decoration: none;
+
+}
+
+.login:hover {
+  text-decoration: underline;
+
+}
+
+.logout {
+  color: black;
+  font-weight: bold;
+  font-size: 2em;
+  text-decoration: none;
+
+}
+
+.logout:hover {
+  text-decoration: underline;
+
+}
+
+.username {
+  color: black;
+  font-weight: bold;
+  font-size: 2em;
+  text-decoration: none;
+  font-family: 'arial black';
+}

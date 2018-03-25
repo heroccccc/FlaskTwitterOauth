@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type=text/css href= "{{ url_for('static', filename='css/style.css') }}" />
+  <title>Flask Twitter Oauth</title>
+</head>
+<body>
+      <h1>Flask Twitter Oauth</h1>
+        {% if session['now_user'] %}
+          <p class="username">{{ username }}</p>
+          <a class="logout" href="/logout">Logout</a>
+        {% else %}
+          <a class="login" href="/loginpage">Login...</a>
+        {% endif %}
+</body>
+</html>
