@@ -57,33 +57,40 @@ def gologinpage():
 
 @app.route("/login")
 def login():
-    session['verifier'] = request.args.get('oauth_verifier')
 
-    #sessionを使って認証する
-    verifier = session.get('verifier')
+        #認証の際にキャンセルを押された時の対処
+    if request.args.get("denied"):
+        return redirect(url_for('hello'))
 
-    auth = tweepy.OAuthHandler(CK, CS)
-    auth.request_token = session.get('request_token')
-    session.pop('request_token', None)
+    else:
 
-    # Access TokenとAccess Token Secretを取得してそれぞれオブジェクト
-    auth.get_access_token(verifier)
-    ACCESS_TOKEN = auth.access_token
-    ACCESS_SECRET = auth.access_token_secret
-    auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
+        session['verifier'] = request.args.get('oauth_verifier')
 
-    api = tweepy.API(auth)
+        #sessionを使って認証する
+        verifier = session.get('verifier')
 
-    accountName = str(api.me().name)
-    session['now_user'] = accountName
+        auth = tweepy.OAuthHandler(CK, CS)
+        auth.request_token = session.get('request_token')
+        session.pop('request_token', None)
 
-    #別に必要ない
-    if not Account.query.filter_by(userName=accountName).first():
-        newAccount = Account(username=accountName)
-        db.session.add(newAccount)
-        db.session.commit()
+        # Access TokenとAccess Token Secretを取得してそれぞれオブジェクト
+        auth.get_access_token(verifier)
+        ACCESS_TOKEN = auth.access_token
+        ACCESS_SECRET = auth.access_token_secret
+        auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
 
-    return redirect(url_for('hello'))
+        api = tweepy.API(auth)
+
+        accountName = str(api.me().name)
+        session['now_user'] = accountName
+
+        #別に必要ない
+        if not Account.query.filter_by(userName=accountName).first():
+            newAccount = Account(username=accountName)
+            db.session.add(newAccount)
+            db.session.commit()
+
+        return redirect(url_for('hello'))
 
 
 @app.route("/logout")
